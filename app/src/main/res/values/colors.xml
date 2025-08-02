@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores del tema -->
+    <color name="primary">#1976D2</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="accent">#FF4081</color>
+
+    <!-- Colores de notificación -->
+    <color name="notification_color">#1976D2</color>
+
+    <!-- Colores del chat -->
+    <color name="message_sent">#DCF8C6</color>
+    <color name="message_received">#FFFFFF</color>
+    <color name="message_timestamp">#999999</color>
+
+    <!-- Estados -->
+    <color name="status_online">#4CAF50</color>
+    <color name="status_offline">#9E9E9E</color>
+    <color name="status_typing">#FF9800</color>
+</resources>

@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">ChatApp</string>
+
+    <!-- Login -->
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="invalid_credentials">Credenciales inválidas</string>
+    <string name="complete_fields">Por favor completa todos los campos</string>
+
+    <!-- Chat -->
+    <string name="message_hint">Escribe un mensaje</string>
+    <string name="send_button">Enviar</string>
+    <string name="typing_indicator">%s está escribiendo...</string>
+    <string name="last_seen">Última vez: %s</string>
+
+    <!-- Notificaciones -->
+    <string name="default_notification_channel_id">chat_notifications</string>
+    <string name="default_notification_channel_name">Mensajes de Chat</string>
+    <string name="notification_new_message">Nuevo mensaje de %s</string>
+
+    <!-- Estados de mensaje -->
+    <string name="message_sent">Enviado</string>
+    <string name="message_delivered">Entregado</string>
+    <string name="message_read">Leído</string>
+
+    <!-- Errores -->
+    <string name="error_network">Error de conexión</string>
+    <string name="error_generic">Ha ocurrido un error</string>
+    <string name="retry">Reintentar</string>
+
+    <!-- Acciones -->
+    <string name="share">Compartir</string>
+    <string name="copy">Copiar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+
+    <!-- Archivos -->
+    <string name="send_image">Enviar imagen</string>
+    <string name="send_file">Enviar archivo</string>
+    <string name="take_photo">Tomar foto</string>
+    <string name="choose_gallery">Elegir de galería</string>
+</resources>
