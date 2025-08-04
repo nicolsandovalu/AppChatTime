@@ -21,6 +21,7 @@ glide = "4.15.1"
 coroutines = "1.7.3"
 work = "2.9.0"
 firebaseMessagingKtxVersion = "25.0.0"
+firebaseInappmessagingKtx = "22.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,6 +69,7 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 # Work Manager
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 google-firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtxVersion" }
+firebase-inappmessaging-ktx = { group = "com.google.firebase", name = "firebase-inappmessaging-ktx", version.ref = "firebaseInappmessagingKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

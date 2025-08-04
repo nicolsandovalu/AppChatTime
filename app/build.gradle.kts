@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -49,6 +52,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.8.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.google.firebase.messaging.ktx)
+    implementation(libs.firebase.inappmessaging.ktx)
 
     // ===== TESTING =====
     testImplementation("junit:junit:4.13.2")
@@ -88,4 +92,32 @@ dependencies {
 
     // ===== JSON =====
     implementation("com.google.code.gson:gson:2.10.1")
+
+
+    // ===== FIREBASE =====
+    // Importa el Firebase BoM (Bill of Materials) para gestionar las versiones
+    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
+    // Firebase Analytics (para métricas)
+    implementation("com.google.firebase:firebase-analytics-ktx:22.5.0")
+    // Firebase Authentication (para autenticación de usuarios)
+    implementation("com.google.firebase:firebase-auth-ktx:23.2.1")
+    // Cloud Firestore (para la base de datos en tiempo real)
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
+    // Cloud Storage (para guardar imágenes y archivos)
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.2")
+    // Cloud Messaging (para notificaciones push)
+    implementation("com.google.firebase:firebase-messaging-ktx:24.1.2")
+    // App Check (para validar peticiones)
+    implementation("com.google.firebase:firebase-appcheck-playintegrity:19.0.0")
+    // App Check Debug (solo para desarrollo)
+    implementation("com.google.firebase:firebase-appcheck-debug")
+
+    // ===== TESTING =====
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    // Firebase Crashlytics buildtools
+    implementation("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+
+
 }
