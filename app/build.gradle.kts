@@ -2,10 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -18,7 +17,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,79 +43,73 @@ android {
 }
 
 dependencies {
-// ===== DEPENDENCIAS BÁSICAS DE ANDROID =====
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.activity:activity-ktx:1.8.2")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation(libs.google.firebase.messaging.ktx)
-    implementation(libs.firebase.inappmessaging.ktx)
 
-    // ===== TESTING =====
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
-    // ===== KOTLIN COROUTINES =====
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    // ===== TESTING (ahora usando el archivo libs.versions.toml) =====
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
-    // ===== LIFECYCLE =====
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    // ===== KOTLIN COROUTINES (se mantiene la versión explícita) =====
+    // Se recomienda mover estas dependencias a libs.versions.toml
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
-    // ===== HILT - INYECCIÓN DE DEPENDENCIAS =====
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    // ===== LIFECYCLE (se mantiene la versión explícita) =====
+    // Se recomienda mover estas dependencias a libs.versions.toml
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
 
-    // ===== ROOM - BASE DE DATOS LOCAL =====
+    // ===== HILT - INYECCIÓN DE DEPENDENCIAS (se mantiene la versión explícita) =====
+    // Se recomienda mover estas dependencias a libs.versions.toml
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    // ===== ROOM - BASE DE DATOS LOCAL (se mantiene la versión explícita) =====
+    // Se recomienda mover estas dependencias a libs.versions.toml
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
-    // ===== NETWORKING =====
+    // ===== NETWORKING (se mantiene la versión explícita) =====
+    // Se recomienda mover estas dependencias a libs.versions.toml
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-    // ===== UI COMPONENTS =====
+    // ===== UI COMPONENTS (se mantiene la versión explícita) =====
+    // Se recomienda mover estas dependencias a libs.versions.toml
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.cardview:cardview:1.0.0")
 
-    // ===== IMAGE LOADING =====
+    // ===== IMAGE LOADING (se mantiene la versión explícita) =====
+    // Se recomienda mover estas dependencias a libs.versions.toml
     implementation("com.github.bumptech.glide:glide:4.16.0")
     kapt("com.github.bumptech.glide:compiler:4.16.0")
 
-    // ===== JSON =====
+    // ===== JSON (se mantiene la versión explícita) =====
+    // Se recomienda mover esta dependencia a libs.versions.toml
     implementation("com.google.code.gson:gson:2.10.1")
 
-
     // ===== FIREBASE =====
-    // Importa el Firebase BoM (Bill of Materials) para gestionar las versiones
+
     implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
-    // Firebase Analytics (para métricas)
-    implementation("com.google.firebase:firebase-analytics-ktx:22.5.0")
-    // Firebase Authentication (para autenticación de usuarios)
-    implementation("com.google.firebase:firebase-auth-ktx:23.2.1")
-    // Cloud Firestore (para la base de datos en tiempo real)
-    implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
-    // Cloud Storage (para guardar imágenes y archivos)
-    implementation("com.google.firebase:firebase-storage-ktx:21.0.2")
-    // Cloud Messaging (para notificaciones push)
-    implementation("com.google.firebase:firebase-messaging-ktx:24.1.2")
-    // App Check (para validar peticiones)
-    implementation("com.google.firebase:firebase-appcheck-playintegrity:19.0.0")
-    // App Check Debug (solo para desarrollo)
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-inappmessaging-ktx")
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+
+    // App Check (las versiones son gestionadas por el BoM)
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
     implementation("com.google.firebase:firebase-appcheck-debug")
-
-    // ===== TESTING =====
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    // Firebase Crashlytics buildtools
-    implementation("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
-
-
 }
