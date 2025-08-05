@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp) // Asegúrate de tener esto declarado
     alias(libs.plugins.hilt)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
@@ -17,11 +17,14 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
+        dataBinding = true
         viewBinding = true
+
     }
 
     buildTypes {
@@ -34,82 +37,73 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
 dependencies {
-
+    // ===== Dependencias de Android y Testing
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
+    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.constraintlayout)
 
-    // ===== TESTING (ahora usando el archivo libs.versions.toml) =====
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // ===== KOTLIN COROUTINES (se mantiene la versión explícita) =====
-    // Se recomienda mover estas dependencias a libs.versions.toml
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    // ===== Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
 
-    // ===== LIFECYCLE (se mantiene la versión explícita) =====
-    // Se recomienda mover estas dependencias a libs.versions.toml
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+    // ===== Lifecycle
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
 
-    // ===== HILT - INYECCIÓN DE DEPENDENCIAS (se mantiene la versión explícita) =====
-    // Se recomienda mover estas dependencias a libs.versions.toml
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    // ===== Hilt - Inyección de dependencias
+    implementation(libs.hilt.android)
+    // Se cambia kapt a ksp
+    ksp(libs.hilt.android.compiler)
 
-    // ===== ROOM - BASE DE DATOS LOCAL (se mantiene la versión explícita) =====
-    // Se recomienda mover estas dependencias a libs.versions.toml
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    // ===== Room - Base de datos local
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    // Se cambia kapt a ksp
+    ksp(libs.room.compiler)
 
-    // ===== NETWORKING (se mantiene la versión explícita) =====
-    // Se recomienda mover estas dependencias a libs.versions.toml
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    // ===== Networking
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging.interceptor)
 
-    // ===== UI COMPONENTS (se mantiene la versión explícita) =====
-    // Se recomienda mover estas dependencias a libs.versions.toml
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.cardview:cardview:1.0.0")
+    // ===== UI Components
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
 
-    // ===== IMAGE LOADING (se mantiene la versión explícita) =====
-    // Se recomienda mover estas dependencias a libs.versions.toml
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt("com.github.bumptech.glide:compiler:4.16.0")
+    // ===== Carga de Imágenes
+    implementation(libs.glide)
+    // Se cambia kapt a ksp
+    ksp(libs.glide.compiler)
 
-    // ===== JSON (se mantiene la versión explícita) =====
-    // Se recomienda mover esta dependencia a libs.versions.toml
-    implementation("com.google.code.gson:gson:2.10.1")
+    // ===== JSON
+    implementation(libs.gson)
 
     // ===== FIREBASE =====
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
 
-    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
+    // Dependencias de Firebase sin versión explícita
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("com.google.firebase:firebase-inappmessaging-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
-
-    // App Check (las versiones son gestionadas por el BoM)
-    implementation("com.google.firebase:firebase-appcheck-playintegrity")
-    implementation("com.google.firebase:firebase-appcheck-debug")
+    implementation("com.google.firebase:firebase-inappmessaging-ktx")
 }
