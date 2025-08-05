@@ -1,15 +1,14 @@
 package com.example.appchat.domain.repository
 
+import com.example.appchat.data.database.dao.MensajeDao
 import com.example.appchat.domain.model.Mensaje
+import kotlinx.coroutines.flow.Flow
 
 interface ChatLocalRepository {
-    val dao: Any
+    val dao: MensajeDao
 
-    suspend fun obtenerMensajes(salaId: String): List<Mensaje>
+    fun obtenerMensajes(salaId: String): Flow<List<Mensaje>>
     suspend fun guardarMensaje(mensaje: Mensaje, salaId: String)
-
-    override suspend fun actualizarEstado(timestamp: Long, estado: EstadoMensaje) {
-        dao.actualizarEstadoMensaje(timestamp, estado.name)
-    }
+    suspend fun actualizarEstado(timestamp: Long, status: Mensaje.MessageStatus)
 
 }

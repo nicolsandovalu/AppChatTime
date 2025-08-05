@@ -16,7 +16,7 @@ import com.example.appchat.domain.model.User
 
     entities = [User::class, Sala::class, Mensaje::class],
     version = 2,
-    exportSchema = false
+    exportSchema = true
 )
 
 @TypeConverters(Converters::class)

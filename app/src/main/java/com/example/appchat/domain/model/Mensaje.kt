@@ -6,8 +6,7 @@ import java.util.UUID
 
 @Entity(tableName = "mensajes")
 data class Mensaje(
-    @PrimaryKey val id: String = UUID.randomUUID()
-        .toString(), //id único del mensaje
+    @PrimaryKey val id: String = UUID.randomUUID().toString(), //id único del mensaje
     val roomId: String,
     val senderId: String,
     val content: String,
@@ -25,5 +24,5 @@ data class Mensaje(
         SENT, DELIVERED, READ
     }
 
-    constructor() : this("", "", "", "", 0L, MessageType.TEXT, null, null, MessageStatus.SENT)
+    constructor() : this("", "", "", "", 0L, MessageType.TEXT, null, MessageStatus.SENT)
 }
