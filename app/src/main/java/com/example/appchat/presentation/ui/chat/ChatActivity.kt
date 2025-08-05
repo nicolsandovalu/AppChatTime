@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appchat.databinding.ActivityChatBinding
 import com.example.appchat.presentation.adapter.MensajeAdapter
+import com.example.appchat.presentation.viewmodel.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
@@ -43,7 +44,7 @@ class ChatActivity : AppCompatActivity() {
         viewModel.mensajes.observe(this) { mensajes ->
             adapter.submitList(mensajes.toList())
             if (mensajes.isNotEmpty()) {
-                binding.rvMensajes.scrollToPosition(mensajes.size - 1)
+                binding.rvMensajes.scrollToPosition(mensajes.size -1)
             }
         }
     }

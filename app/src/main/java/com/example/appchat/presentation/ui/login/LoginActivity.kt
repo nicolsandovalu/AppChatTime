@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appchat.databinding.ActivityLoginBinding
 import com.example.appchat.presentation.ui.salas.SalasActivity
+import com.example.appchat.presentation.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
@@ -18,7 +19,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupClickListeners()
@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
+
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -39,7 +40,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+
         viewModel.loginSuccess.observe(this) { success ->
+
             if (success) {
                 startActivity(Intent(this, SalasActivity::class.java))
                 finish()

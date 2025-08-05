@@ -1,6 +1,6 @@
 package com.example.appchat.data.datasource.websocket
 
-import com.bumptech.glide.request.Request
+import okhttp3.Request
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class ChatWebSocketClient @Inject constructor() {
 
-    private var webSocket: WebSocket = null
+    private var webSocket: WebSocket? = null
     private var listener: ChatWebSocketListener? = null
 
     fun connect(url: String, listener: ChatWebSocketListener) {

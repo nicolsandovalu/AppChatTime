@@ -1,48 +1,27 @@
 package com.example.appchat.data.repository
 
-import com.example.appchat.data.database.MensajeData
 import com.example.appchat.data.database.dao.MensajeDao
-import com.example.appchat.data.database.entity.MensajeEntity
-import com.example.appchat.domain.model.EstadoMensaje
+import com.example.appchat.domain.model.Mensaje
 import com.example.appchat.domain.repository.ChatLocalRepository
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow // Importar Flow
+import com.example.appchat.domain.model.Mensaje.MessageStatus // Importar MessageStatus
 
 class ChatRepositoryImpl @Inject constructor(
-    override val dao: MensajeDao
+    override val dao: MensajeDao // 'dao' es la propiedad abstracta de ChatLocalRepository
 ) : ChatLocalRepository {
 
-    override suspend fun obtenerMensajes(salaId: String): List<MensajeData> {
-        return dao.getMensajesPorSala(salaId).map {
-            MensajeData(
-                contenido = it.contenido,
-                remitente = it.remitente,
-                timestamp = it.timestamp,
-                estado = if (it.estado.isNotEmpty()) {
-                    try {
-                        EstadoMensaje.valueOf(it.estado)
-                    } catch (e: IllegalArgumentException) {
-                        EstadoMensaje.ENVIADO
-                    }
-                } else {
-                    EstadoMensaje.ENVIADO
-                }
-            )
-        }
+    // Se actualiza la firma para que coincida con la interfaz: retorna Flow<List<Mensaje>>
+    override fun obtenerMensajes(salaId: String): Flow<List<Mensaje>> {
+        return dao.getMessagesForRoom(salaId)
     }
 
-    override suspend fun guardarMensaje(mensaje: MensajeData, salaId: String) {
-        dao.insertarMensaje(
-            MensajeEntity(
-                contenido = mensaje.contenido,
-                remitente = mensaje.remitente,
-                timestamp = mensaje.timestamp,
-                salaId = salaId,
-                estado = mensaje.estado.name
-            )
-        )
+    override suspend fun guardarMensaje(mensaje: Mensaje, salaId: String) {
+        val mensajeConSalaId = mensaje.copy(roomId = salaId)
+        dao.insertMessage(mensajeConSalaId)
     }
 
-    override suspend fun actualizarEstado(timestamp: Long, estado: EstadoMensaje) {
-        dao.actualizarEstadoMensaje(timestamp, estado.name)
+    override suspend fun actualizarEstado(timestamp: Long, status: MessageStatus) {
+        dao.updateMessageStatus(timestamp, status.name)
     }
 }

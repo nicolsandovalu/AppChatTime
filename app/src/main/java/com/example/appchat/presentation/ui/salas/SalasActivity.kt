@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appchat.databinding.ActivitySalasBinding
 import com.example.appchat.presentation.adapter.SalaAdapter
 import com.example.appchat.presentation.ui.chat.ChatActivity
+import com.example.appchat.presentation.viewmodel.SalasViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
@@ -26,7 +27,7 @@ class SalasActivity : AppCompatActivity() {
         adapter = SalaAdapter { sala ->
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("salaId", sala.id)
-            intent.putExtra("salaNombre", sala.nombre)
+            intent.putExtra("salaNombre", sala.name)
             startActivity(intent)
         }
 

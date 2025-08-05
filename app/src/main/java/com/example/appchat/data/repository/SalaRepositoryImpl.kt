@@ -1,6 +1,7 @@
 package com.example.appchat.data.repository
 
 import com.example.appchat.data.datasource.remote.SalaRemoteDataSource
+import com.example.appchat.domain.model.Sala
 import com.example.appchat.domain.repository.SalaRepository
 import javax.inject.Inject
 

@@ -2,7 +2,7 @@ package com.example.appchat.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.appchat.domain.model.EstadoMensaje
+import com.example.appchat.domain.model.Mensaje.MessageStatus
 
 @Entity
 data class MensajeData(
