@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.appchat.domain.model.EstadoMensaje
 
 @Entity
-data class Mensaje(
+data class MensajeData(
 
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val contenido: String,

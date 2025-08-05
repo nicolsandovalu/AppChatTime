@@ -1,6 +1,6 @@
 package com.example.appchat.data.repository
 
-import com.example.appchat.data.database.Mensaje
+import com.example.appchat.data.database.MensajeData
 import com.example.appchat.data.database.dao.MensajeDao
 import com.example.appchat.data.database.entity.MensajeEntity
 import com.example.appchat.domain.model.EstadoMensaje
@@ -11,9 +11,9 @@ class ChatRepositoryImpl @Inject constructor(
     override val dao: MensajeDao
 ) : ChatLocalRepository {
 
-    override suspend fun obtenerMensajes(salaId: String): List<Mensaje> {
+    override suspend fun obtenerMensajes(salaId: String): List<MensajeData> {
         return dao.getMensajesPorSala(salaId).map {
-            Mensaje(
+            MensajeData(
                 contenido = it.contenido,
                 remitente = it.remitente,
                 timestamp = it.timestamp,
@@ -30,7 +30,7 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun guardarMensaje(mensaje: Mensaje, salaId: String) {
+    override suspend fun guardarMensaje(mensaje: MensajeData, salaId: String) {
         dao.insertarMensaje(
             MensajeEntity(
                 contenido = mensaje.contenido,
