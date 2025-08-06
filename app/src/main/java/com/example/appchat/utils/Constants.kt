@@ -5,7 +5,7 @@ object Constants {
     // URL de ejemplo para el servidor WebSocket.
     // **IMPORTANTE**: Sustituir con la URL real de tu servidor WebSocket.
     // Ejemplo: const val WEBSOCKET_URL = "ws://192.168.1.100:8080/chat"
-    const val WEBSOCKET_URL = "ws://your_websocket_server_ip:8080/chat" // Reemplaza esto con tu URL.
+    const val WEBSOCKET_URL = "ws://10.0.2.2:8080"
 
     //claves para sharedPreferences o argumentos de intent
     const val EXTRA_ROOM_ID = "extra_room_id"

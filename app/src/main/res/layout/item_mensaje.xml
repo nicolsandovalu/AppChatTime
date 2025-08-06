@@ -3,15 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:gravity="start">
 
-    <TextView
-        android:id="@+id/tvMensaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:background="#EEEEEE"
-        android:padding="10dp"
-        android:text="Mensaje de prueba"/>
-</LinearLayout>
+<TextView
+android:id="@+id/tvRemitente"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textSize="12sp"
+android:textStyle="bold"
+android:textColor="#333333"
+android:layout_marginBottom="2dp"
+android:text="Remitente"/> <!-- Texto de ejemplo para el remitente -->
+
+<TextView
+android:id="@+id/tvMensaje"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textSize="16sp"
+android:background="#EEEEEE"
+android:padding="10dp"
+android:text="Mensaje de prueba"/>
+    </LinearLayout>

@@ -15,6 +15,7 @@ import com.example.appchat.domain.repository.ChatLocalRepository
 import com.example.appchat.domain.repository.ChatLocalRepositoryImpl
 import com.example.appchat.domain.repository.ChatRepository
 import com.example.appchat.domain.repository.SalaRepository
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,14 +33,12 @@ object AppModule {
         return context
     }
 
-    // Usar la fuente de datos de autenticación falsa
     @Provides
     @Singleton
     fun provideAuthRemoteDataSource(): AuthRemoteDataSource {
         return FakeAuthRemoteDataSource()
     }
 
-    // Usar la fuente de datos de salas falsa
     @Provides
     @Singleton
     fun provideSalaRemoteDataSource(): SalaRemoteDataSource {
@@ -78,5 +77,12 @@ object AppModule {
     @Singleton
     fun provideChatLocalRepository(dao: MensajeDao): ChatLocalRepository {
         return ChatLocalRepositoryImpl(dao)
+    }
+
+    // ¡Esta es la parte crucial! Hilt necesita saber cómo crear un objeto Gson.
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return Gson()
     }
 }
