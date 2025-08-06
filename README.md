@@ -35,12 +35,13 @@ async def main():
         await asyncio.Future()
 
 asyncio.run(main())
-
+```
 // Constants.kt
 const val WEBSOCKET_URL = "ws://10.0.2.2:8080"  // Para emulador
 // const val WEBSOCKET_URL = "ws://[TU_IP]:8080" // Para dispositivo físico
 
-##📌 Limitaciones Actuales
+
+## 📌 Limitaciones Actuales
 - 🔒 Autenticación hardcodeada
 - 🌐 Imágenes solo visibles localmente
 - 🔔 Sin notificaciones push
