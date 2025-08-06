@@ -1,6 +1,8 @@
 package com.example.appchat.presentation.ui.chat
 
+import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,45 +18,56 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
     private val viewModel: ChatViewModel by viewModels()
     private lateinit var adapter: MensajeAdapter
-    private var currentSalaId: String? = null // Variable para almacenar el salaId
+    private var currentSalaId: String? = null
+
+    // Launcher para seleccionar una imagen de la galería
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            // Cuando se selecciona una imagen, llama al ViewModel para enviarla
+            currentSalaId?.let { salaId ->
+                viewModel.enviarImagen(it, salaId)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configurar la Toolbar
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra("salaNombre")
 
-        // Obtener salaId del Intent
         currentSalaId = intent.getStringExtra("salaId")
-        val salaId = currentSalaId ?: return // Si no hay salaId, sal de la actividad
+        val salaId = currentSalaId ?: return
 
-        // Configurar RecyclerView y el adaptador
         adapter = MensajeAdapter()
         binding.rvMensajes.layoutManager = LinearLayoutManager(this)
         binding.rvMensajes.adapter = adapter
 
-        // Conectar ViewModel y Observer
-        viewModel.conectarWebSocket(salaId) // Pasa el salaId al ViewModel
+        viewModel.conectarWebSocket(salaId)
 
         viewModel.mensajes.observe(this) { mensajes ->
             adapter.submitList(mensajes)
             if (mensajes.isNotEmpty()) {
-                // FIX: Cambia 'messages' a 'mensajes'
                 binding.rvMensajes.scrollToPosition(mensajes.size - 1)
             }
         }
 
-        // Configurar el botón de enviar
         binding.btnEnviar.setOnClickListener {
             val mensajeTexto = binding.etMensaje.text.toString().trim()
             if (mensajeTexto.isNotEmpty()) {
-                viewModel.enviarMensaje(mensajeTexto) // El ViewModel ahora toma el salaId internamente
+                viewModel.enviarMensaje(mensajeTexto)
                 binding.etMensaje.text.clear()
             }
+        }
+
+        // Listener para el nuevo botón de adjuntar imagen
+        binding.btnAdjuntar.setOnClickListener {
+            pickImageLauncher.launch("image/*") // Abre el selector de imágenes
         }
     }
 

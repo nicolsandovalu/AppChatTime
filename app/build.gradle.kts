@@ -104,6 +104,10 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.gson)
+
+    // Glide
+    implementation(libs.glide)
+    ksp(libs.glide.compiler)
 }
 
 // Configuración KSP para Room y Hilt

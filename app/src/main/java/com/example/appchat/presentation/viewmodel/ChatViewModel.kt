@@ -1,5 +1,6 @@
 package com.example.appchat.presentation.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,44 +9,41 @@ import com.example.appchat.domain.model.Mensaje
 import com.example.appchat.domain.repository.ChatLocalRepository
 import com.example.appchat.domain.usecase.ConectarChatUseCase
 import com.example.appchat.domain.usecase.EnviarMensajeUseCase
-import com.google.gson.Gson // Asegúrate de que Gson esté importado
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import java.util.UUID
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val conectar: ConectarChatUseCase,
     private val enviar: EnviarMensajeUseCase,
     private val chatLocal: ChatLocalRepository,
-    private val gson: Gson // Inyecta Gson aquí
+    private val gson: Gson
 ) : ViewModel() {
 
     private val _mensajes = MutableLiveData<MutableList<Mensaje>>(mutableListOf())
     val mensajes: LiveData<MutableList<Mensaje>> = _mensajes
 
-    // Variable para almacenar el ID de la sala actual
     private var currentRoomId: String? = null
 
     fun conectarWebSocket(salaId: String) {
-        currentRoomId = salaId // Guarda el ID de la sala actual
+        currentRoomId = salaId
         viewModelScope.launch {
             cargarMensajesLocalmente(salaId)
 
-            conectar.conectar(salaId) { mensajeJson -> // Este 'mensajeJson' es un String del WebSocket
+            conectar.conectar(salaId) { mensajeJson ->
                 viewModelScope.launch {
                     try {
-                        // Deserializa el JSON a un objeto Mensaje
                         val nuevoMensaje = gson.fromJson(mensajeJson, Mensaje::class.java)
 
-                        // Solo añade el mensaje si corresponde a la sala actual
                         if (nuevoMensaje.roomId == currentRoomId) {
                             _mensajes.value?.add(nuevoMensaje)
-                            _mensajes.postValue(_mensajes.value) // Notifica a los observadores
+                            _mensajes.postValue(_mensajes.value)
                         }
-                        chatLocal.guardarMensaje(nuevoMensaje, salaId) // Guarda el mensaje localmente
+                        chatLocal.guardarMensaje(nuevoMensaje, salaId)
                     } catch (e: Exception) {
-                        // Maneja errores si el JSON no es válido o no se puede deserializar
                         e.printStackTrace()
                         println("Error al deserializar mensaje JSON: $mensajeJson")
                     }
@@ -55,28 +53,50 @@ class ChatViewModel @Inject constructor(
     }
 
     fun enviarMensaje(texto: String) {
-        // Asegúrate de usar el ID de la sala actual
-        val salaId = currentRoomId ?: return // Si no hay sala, no envía el mensaje
+        val salaId = currentRoomId ?: return
 
         val mensajeEnviado = Mensaje(
+            id = UUID.randomUUID().toString(),
             content = texto,
-            senderId = "Yo", // Puedes obtener el ID del usuario logueado aquí
+            senderId = "Yo",
             timestamp = System.currentTimeMillis(),
-            roomId = salaId, // Usa el ID de la sala actual
+            roomId = salaId,
             type = Mensaje.MessageType.TEXT,
             status = Mensaje.MessageStatus.SENT
         )
 
-        // Agrega el mensaje a la lista local *antes* de enviarlo para mostrarlo inmediatamente
         _mensajes.value?.add(mensajeEnviado)
-        _mensajes.postValue(_mensajes.value) // Notifica a los observadores
+        _mensajes.postValue(_mensajes.value)
 
-        // Serializa el objeto Mensaje a JSON antes de enviarlo por el WebSocket
         val mensajeJson = gson.toJson(mensajeEnviado)
-        enviar.enviar(mensajeJson) // Envía el JSON completo
+        enviar.enviar(mensajeJson)
 
         viewModelScope.launch {
             chatLocal.guardarMensaje(mensajeEnviado, mensajeEnviado.roomId)
+        }
+    }
+
+    // Nueva función para enviar imágenes
+    fun enviarImagen(imageUri: Uri, salaId: String) {
+        val mensajeImagen = Mensaje(
+            id = UUID.randomUUID().toString(),
+            content = "Imagen adjunta", // Texto descriptivo
+            senderId = "Yo",
+            timestamp = System.currentTimeMillis(),
+            roomId = salaId,
+            type = Mensaje.MessageType.IMAGE, // Tipo de mensaje IMAGE
+            fileUrl = imageUri.toString(), // Guarda la URI local de la imagen como String
+            status = Mensaje.MessageStatus.SENT
+        )
+
+        _mensajes.value?.add(mensajeImagen)
+        _mensajes.postValue(_mensajes.value)
+
+        val mensajeJson = gson.toJson(mensajeImagen)
+        enviar.enviar(mensajeJson) // Envía el JSON completo (incluye fileUrl)
+
+        viewModelScope.launch {
+            chatLocal.guardarMensaje(mensajeImagen, mensajeImagen.roomId)
         }
     }
 
