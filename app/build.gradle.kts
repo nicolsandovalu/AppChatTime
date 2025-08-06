@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp) // Asegúrate de tener esto declarado
-    alias(libs.plugins.hilt)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
 }
@@ -45,65 +45,73 @@ android {
     }
 }
 
+ksp {
+    // Configuraciones específicas para Hilt
+    arg("dagger.hilt.shareTestComponents", "true")
+}
+
+
 dependencies {
-    // ===== Dependencias de Android y Testing
+    // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.constraintlayout)
 
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // ===== Kotlin Coroutines
+    // Coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.play.services)
 
-    // ===== Lifecycle
+    // Lifecycle
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.runtime.compose)
 
-    // ===== Hilt - Inyección de dependencias
-    implementation(libs.hilt.android)
-    // Se cambia kapt a ksp
-    ksp(libs.hilt.android.compiler)
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
+    // Para ViewModels con Hilt
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0") // o hilt-navigation-fragment si usas fragments
 
-    // ===== Room - Base de datos local
+
+    // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    // Se cambia kapt a ksp
     ksp(libs.room.compiler)
 
-    // ===== Networking
+    // Networking
     implementation(libs.okhttp)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.logging.interceptor)
 
-    // ===== UI Components
+    // UI
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
+    implementation(libs.androidx.swiperefreshlayout)
 
-    // ===== Carga de Imágenes
+    // Glide
     implementation(libs.glide)
-    // Se cambia kapt a ksp
     ksp(libs.glide.compiler)
 
-    // ===== JSON
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase.libs)
+
+    // Utilidades
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.gson)
+}
 
-    // ===== FIREBASE =====
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
-
-    // Dependencias de Firebase sin versión explícita
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-storage-ktx")
-    implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-inappmessaging-ktx")
+// Configuración KSP para Room y Hilt
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }

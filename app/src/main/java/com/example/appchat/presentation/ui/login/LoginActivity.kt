@@ -18,8 +18,13 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        // 1. Inicializa el binding PRIMERO
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+
+        // 2. Establece la vista usando el root del binding
         setContentView(binding.root)
+
+        super.onCreate(savedInstanceState) // Opcional: Puedes mantenerlo después si prefieres
 
         setupClickListeners()
         observeViewModel()

@@ -5,6 +5,10 @@ pluginManagement {
         gradlePluginPortal()
 
     }
+
+    plugins {
+        // Agrega esto para Hilt
+        id("com.google.dagger.hilt.android") version "2.51.1" apply false
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -15,4 +19,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "DefLatam_ChatApp"
-include(":app")
+include(":app")}

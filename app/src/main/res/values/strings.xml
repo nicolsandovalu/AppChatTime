@@ -5,8 +5,8 @@
     <string name="email_hint">Correo electrónico</string>
     <string name="password_hint">Contraseña</string>
     <string name="login_button">Iniciar Sesión</string>
+    <string name="complete_all_fields">Por favor completa todos los campos</string>
     <string name="invalid_credentials">Credenciales inválidas</string>
-    <string name="complete_fields">Por favor completa todos los campos</string>
 
     <!-- Chat -->
     <string name="message_hint">Escribe un mensaje</string>
