@@ -22,40 +22,33 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val salaId = intent.getStringExtra("salaId") ?: "1"
-        val salaNombre = intent.getStringExtra("salaNombre") ?: "Chat"
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = intent.getStringExtra("salaNombre")
 
-        title = salaNombre
-
-        setupRecyclerView()
-        observeViewModel()
-        setupClickListeners(salaId)
-
-        viewModel.conectarWebSocket(salaId)
-    }
-
-    private fun setupRecyclerView() {
         adapter = MensajeAdapter()
         binding.rvMensajes.layoutManager = LinearLayoutManager(this)
         binding.rvMensajes.adapter = adapter
-    }
 
-    private fun observeViewModel() {
+        val salaId = intent.getStringExtra("salaId") ?: return
+        viewModel.conectarWebSocket(salaId)
+
         viewModel.mensajes.observe(this) { mensajes ->
-            adapter.submitList(mensajes.toList())
-            if (mensajes.isNotEmpty()) {
-                binding.rvMensajes.scrollToPosition(mensajes.size -1)
+            adapter.submitList(mensajes)
+            binding.rvMensajes.scrollToPosition(mensajes.size - 1)
+        }
+
+        binding.btnEnviar.setOnClickListener {
+            val mensaje = binding.etMensaje.text.toString()
+            if (mensaje.isNotEmpty()) {
+                viewModel.enviarMensaje(mensaje)
+                binding.etMensaje.text.clear()
             }
         }
     }
 
-    private fun setupClickListeners(salaId: String) {
-        binding.btnEnviar.setOnClickListener {
-            val texto = binding.etMensaje.text.toString().trim()
-            if (texto.isNotBlank()) {
-                viewModel.enviarMensaje(texto)
-                binding.etMensaje.text?.clear()
-            }
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

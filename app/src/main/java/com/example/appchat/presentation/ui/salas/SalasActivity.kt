@@ -24,6 +24,11 @@ class SalasActivity : AppCompatActivity() {
         binding = ActivitySalasBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Configura la Toolbar
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Salas de Chat"
+
         adapter = SalaAdapter { sala ->
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("salaId", sala.id)

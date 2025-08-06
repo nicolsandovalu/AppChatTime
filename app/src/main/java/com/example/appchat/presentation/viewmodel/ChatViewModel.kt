@@ -10,38 +10,31 @@ import com.example.appchat.domain.model.Mensaje
 import com.example.appchat.domain.repository.ChatLocalRepository
 import com.example.appchat.domain.usecase.ConectarChatUseCase
 import com.example.appchat.domain.usecase.EnviarMensajeUseCase
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-
     private val conectar: ConectarChatUseCase,
     private val enviar: EnviarMensajeUseCase,
     private val chatLocal: ChatLocalRepository
 ) : ViewModel() {
 
-    private val _mensajes = MutableLiveData<MutableList<String>>(mutableListOf())
-    val mensajes: LiveData<MutableList<String>> = _mensajes
+    // Cambia el tipo de LiveData para que maneje objetos Mensaje
+    private val _mensajes = MutableLiveData<MutableList<Mensaje>>(mutableListOf())
+    val mensajes: LiveData<MutableList<Mensaje>> = _mensajes
 
     fun conectarWebSocket(salaId: String) {
-
         viewModelScope.launch {
             cargarMensajesLocalmente(salaId)
 
-            conectar.conectar(salaId) { nuevoMensajeContent ->
+            conectar.conectar(salaId) { mensajeJson ->
                 viewModelScope.launch {
-                    val nuevoMensaje = Mensaje(
-                        content = nuevoMensajeContent,
-                        senderId = "otro", //O el ID real del remitente
-                        timestamp = System.currentTimeMillis(),
-                        roomId = salaId,
-                        type = Mensaje.MessageType.TEXT, //asume TEXT por defecto
-                        status = Mensaje.MessageStatus.SENT //asume sent por defecto
-                    )
+                    val nuevoMensaje = Gson().fromJson(mensajeJson, Mensaje::class.java)
 
-                    _mensajes.value?.add("${nuevoMensaje.senderId}: ${nuevoMensaje.content} (${nuevoMensaje.status.name.lowercase()}")
+                    _mensajes.value?.add(nuevoMensaje)
                     _mensajes.postValue(_mensajes.value)
 
                     chatLocal.guardarMensaje(nuevoMensaje, salaId)
@@ -51,18 +44,20 @@ class ChatViewModel @Inject constructor(
     }
 
     fun enviarMensaje(texto: String) {
-        enviar.enviar(texto)
-        val mensajeEnviado = Mensaje (
+        val mensajeEnviado = Mensaje(
             content = texto,
             senderId = "Yo",
             timestamp = System.currentTimeMillis(),
-            roomId = "current_room_id",
+            roomId = "current_room_id", // Debes obtener el ID real de la sala
             type = Mensaje.MessageType.TEXT,
             status = Mensaje.MessageStatus.SENT
         )
 
-        _mensajes.value?.add("${mensajeEnviado.senderId}: ${mensajeEnviado.content} (${mensajeEnviado.status.name.lowercase()}")
+        // Agrega el mensaje a la lista local para mostrarlo inmediatamente
+        _mensajes.value?.add(mensajeEnviado)
         _mensajes.postValue(_mensajes.value)
+
+        enviar.enviar(texto) // Envía el mensaje real por el WebSocket
 
         viewModelScope.launch {
             chatLocal.guardarMensaje(mensajeEnviado, mensajeEnviado.roomId)
@@ -71,11 +66,8 @@ class ChatViewModel @Inject constructor(
 
     private suspend fun cargarMensajesLocalmente(salaId: String) {
         try {
-            // Recopila el Flow emitido por el repositorio
             chatLocal.obtenerMensajes(salaId).collect { mensajesList ->
-                _mensajes.postValue(mensajesList.map {
-                    "${it.senderId}: ${it.content} (${it.status.name.lowercase()})"
-                }.toMutableList())
+                _mensajes.postValue(mensajesList.toMutableList())
             }
         } catch (e: Exception) {
             e.printStackTrace()

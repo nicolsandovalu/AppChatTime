@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appchat.databinding.ItemMensajeBinding
+import com.example.appchat.domain.model.Mensaje
 
 class MensajeAdapter : RecyclerView.Adapter<MensajeAdapter.MensajeViewHolder>() {
 
-    private val mensajes = mutableListOf<String>()
+    // Cambia el tipo de la lista para manejar objetos Mensaje
+    private val mensajes = mutableListOf<Mensaje>()
 
-    fun submitList(nuevos: List<String>) {
+    // El metodo `submitList` ahora acepta una lista de Mensaje
+    fun submitList(nuevos: List<Mensaje>) {
         mensajes.clear()
         mensajes.addAll(nuevos)
         notifyDataSetChanged()
@@ -21,10 +24,14 @@ class MensajeAdapter : RecyclerView.Adapter<MensajeAdapter.MensajeViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: MensajeViewHolder, position: Int) {
-        holder.binding.tvMensaje.text = mensajes[position]
+        holder.bind(mensajes[position])
     }
 
     override fun getItemCount(): Int = mensajes.size
 
-    class MensajeViewHolder(val binding: ItemMensajeBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class MensajeViewHolder(val binding: ItemMensajeBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(mensaje: Mensaje) {
+            binding.tvMensaje.text = "${mensaje.senderId}: ${mensaje.content}"
+        }
+    }
 }
