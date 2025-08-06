@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -17,6 +15,7 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +31,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
+
                 "proguard-rules.pro"
             )
         }
@@ -52,6 +52,7 @@ ksp {
 
 
 dependencies {
+    //
     // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -79,6 +80,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     ksp("com.google.dagger:hilt-android-compiler:2.51.1")
     // Para ViewModels con Hilt
+
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0") // o hilt-navigation-fragment si usas fragments
 
 
@@ -98,16 +100,9 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.swiperefreshlayout)
 
-    // Glide
-    implementation(libs.glide)
-    ksp(libs.glide.compiler)
-
-    // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.bundles.firebase.libs)
-
     // Utilidades
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
     implementation(libs.gson)
 }
 

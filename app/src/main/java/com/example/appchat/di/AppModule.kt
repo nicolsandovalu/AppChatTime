@@ -26,27 +26,26 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    // Proporciona el contexto de la aplicación
     @Provides
     @Singleton
     fun provideApplicationContext(@ApplicationContext context: Context): Context {
         return context
     }
 
-    // Fuentes de datos remotas
+    // Usar la fuente de datos de autenticación falsa
     @Provides
     @Singleton
     fun provideAuthRemoteDataSource(): AuthRemoteDataSource {
         return FakeAuthRemoteDataSource()
     }
 
+    // Usar la fuente de datos de salas falsa
     @Provides
     @Singleton
     fun provideSalaRemoteDataSource(): SalaRemoteDataSource {
         return FakeSalaRemoteDataSource()
     }
 
-    // Repositorios
     @Provides
     @Singleton
     fun provideAuthRepository(
@@ -63,7 +62,6 @@ object AppModule {
         return SalaRepositoryImpl(remote)
     }
 
-    // WebSocket y Chat
     @Provides
     @Singleton
     fun provideChatWebSocketClient(): ChatWebSocketClient {

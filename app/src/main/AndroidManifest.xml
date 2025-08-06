@@ -2,18 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos de Internet y Red -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!-- Permisos para Notificaciones -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- Permisos para Archivos e Imágenes -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -21,17 +18,15 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
-    <!-- Permisos para Cámara y Micrófono (para futuras funcionalidades) -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- Features opcionales -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
 
     <application
-        android:allowBackup="true"
+        android:name=".ChatApp"  android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -42,9 +37,6 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
-        <!-- ========== ACTIVIDADES ========== -->
-
-        <!-- Actividad de Login - Punto de entrada principal -->
         <activity
             android:name=".presentation.ui.login.LoginActivity"
             android:exported="true"
@@ -56,14 +48,12 @@
             </intent-filter>
         </activity>
 
-        <!-- Actividad de Lista de Salas -->
         <activity
             android:name=".presentation.ui.salas.SalasActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:parentActivityName=".presentation.ui.login.LoginActivity" />
 
-        <!-- Actividad de Chat -->
         <activity
             android:name=".presentation.ui.chat.ChatActivity"
             android:exported="false"
@@ -71,38 +61,18 @@
             android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".presentation.ui.salas.SalasActivity" />
 
-        <!-- Actividad de Perfil (para futuras funcionalidades) -->
-        <activity
-            android:name=".presentation.ui.perfil.PerfilActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".presentation.ui.salas.SalasActivity" />
 
-        <!-- MainActivity (mantener por compatibilidad) -->
+
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
-        <!-- ========== SERVICIOS ========== -->
 
-        <!-- Servicio de Firebase Cloud Messaging -->
-        <service
-            android:name=".firebase.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <!-- Servicio para sincronización en background -->
         <service
             android:name=".services.SyncService"
             android:exported="false" />
 
-        <!-- ========== RECEIVERS ========== -->
-
-        <!-- Receiver para notificaciones -->
         <receiver
             android:name=".receivers.NotificationReceiver"
             android:exported="false">
@@ -111,7 +81,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Receiver para reinicio del dispositivo -->
         <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="true"
@@ -124,9 +93,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- ========== PROVIDERS ========== -->
-
-        <!-- Provider para compartir archivos -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -137,9 +103,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- ========== META-DATA ========== -->
-
-        <!-- Firebase App ID y configuraciones -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_notification" />
@@ -152,38 +115,31 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <!-- Configuración de Glide -->
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
             android:value="GlideModule" />
 
-        <!-- Configuración de red para desarrollo -->
         <meta-data
             android:name="android.webkit.WebView.MetricsOptOut"
             android:value="true" />
 
     </application>
 
-    <!-- ========== QUERIES (para Android 11+) ========== -->
     <queries>
-        <!-- Para abrir galería de imágenes -->
         <intent>
             <action android:name="android.intent.action.GET_CONTENT" />
             <data android:mimeType="image/*" />
         </intent>
 
-        <!-- Para abrir cámara -->
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
 
-        <!-- Para compartir contenido -->
         <intent>
             <action android:name="android.intent.action.SEND" />
             <data android:mimeType="*/*" />
         </intent>
 
-        <!-- Para abrir navegador web -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="http" />

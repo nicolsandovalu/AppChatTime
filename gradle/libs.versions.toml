@@ -1,17 +1,14 @@
 [versions]
-agp = "8.4.0"  # Android Gradle Plugin más estable para Kotlin 2.0.0
+agp = "8.4.0"
 kotlin = "2.0.0"
 ksp = "2.0.0-1.0.21"
 hilt = "2.51.1"
-googleServices = "4.4.2"
-firebaseCrashlytics = "2.9.9"
-firebaseBom = "33.0.0"
 swiperefreshlayout = "1.1.0"
 # Actualización de librerías AndroidX
 coreKtx = "1.13.0"
 appcompat = "1.7.0"
 material = "1.12.0"
-activityKtx = "1.9.0"  # Versión compatible con Kotlin 2.0.0
+activityKtx = "1.9.0"
 constraintlayout = "2.1.4"
 
 # Testing
@@ -23,14 +20,14 @@ espressoCore = "3.5.1"
 coroutines = "1.8.1"
 
 # Lifecycle
-lifecycle = "2.7.0"  # Versión compatible con Kotlin 2.0.0
+lifecycle = "2.7.0"
 
 # Room
 room = "2.6.1"
 
 # Networking
 okhttp = "4.12.0"
-retrofit = "2.11.0"  # Versión actualizada
+retrofit = "2.11.0"
 
 # UI
 glide = "4.16.0"
@@ -85,35 +82,14 @@ androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "s
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 
-# Firebase
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
-firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
-firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
-firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx" }
-firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
-firebase-crashlytics-ktx = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-firebase-inappmessaging-ktx = { group = "com.google.firebase", name = "firebase-inappmessaging-ktx" }
-
 # Utilidades
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.0.4" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [bundles]
-firebase-libs = [
-    "firebase-analytics-ktx",
-    "firebase-auth-ktx",
-    "firebase-firestore-ktx",
-    "firebase-storage-ktx",
-    "firebase-messaging-ktx",
-    "firebase-crashlytics-ktx",
-    "firebase-inappmessaging-ktx"
-]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
