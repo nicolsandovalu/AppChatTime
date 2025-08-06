@@ -37,7 +37,7 @@ async def main():
 asyncio.run(main())
 ```
 // Constants.kt
-const val WEBSOCKET_URL = "ws://10.0.2.2:8080"  // Para emulador
+const val WEBSOCKET_URL = "ws://10.0.2.2:8080"  // Para emulador <br>
 // const val WEBSOCKET_URL = "ws://[TU_IP]:8080" // Para dispositivo físico
 
 
