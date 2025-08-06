@@ -1,5 +1,6 @@
 package com.example.appchat.presentation.adapter
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -31,8 +32,8 @@ class SalaAdapter(
 
     inner class SalaViewHolder(private val binding: ItemSalaBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(sala: Sala) {
-            binding.tvNombreSala.text = sala.nombre
-            binding.tvDescripcionSala.text = sala.descripcion
+            binding.tvNombreSala.text = sala.name
+            binding.tvDescripcionSala.text = sala.description
             binding.root.setOnClickListener { onSalaClick(sala) }
         }
     }

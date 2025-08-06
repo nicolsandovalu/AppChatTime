@@ -7,10 +7,11 @@ import com.example.appchat.data.datasource.remote.FakeSalaRemoteDataSource
 import com.example.appchat.data.datasource.remote.SalaRemoteDataSource
 import com.example.appchat.data.datasource.websocket.ChatWebSocketClient
 import com.example.appchat.data.repository.AuthRepositoryImpl
+import com.example.appchat.domain.repository.ChatLocalRepository
 import com.example.appchat.data.repository.ChatRepositoryImpl
 import com.example.appchat.data.repository.SalaRepositoryImpl
 import com.example.appchat.domain.repository.AuthRepository
-import com.example.appchat.domain.repository.ChatLocalRepository
+import com.example.appchat.domain.repository.ChatLocalRepositoryImpl
 import com.example.appchat.domain.repository.SalaRepository
 import dagger.Module
 import dagger.Provides
@@ -20,13 +21,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
 
-    //autenticación
+object AppModule  {
+
     @Provides
     @Singleton
     fun provideAuthRemoteDataSource(): AuthRemoteDataSource {
-
         return FakeAuthRemoteDataSource()
     }
 
@@ -38,7 +38,6 @@ object AppModule {
         return AuthRepositoryImpl(remote)
     }
 
-    //salas de chat
     @Provides
     @Singleton
     fun provideSalaRemoteDataSource(): SalaRemoteDataSource {
@@ -68,6 +67,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideChatLocalRepository(dao: MensajeDao): ChatLocalRepository {
-        return ChatRepositoryImpl(dao)
+        return ChatLocalRepositoryImpl(dao) // Corregido para usar ChatLocalRepositoryImpl
     }
 }

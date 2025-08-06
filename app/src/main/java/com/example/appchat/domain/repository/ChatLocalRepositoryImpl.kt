@@ -8,23 +8,19 @@ import javax.inject.Inject
 
 class ChatLocalRepositoryImpl @Inject constructor(
 
-    private val mensajeDao: MensajeDao
+    override val dao: MensajeDao
 ) : ChatLocalRepository {
 
-    override val dao: MensajeDao //implementación de la propiedad abstracta 'dao'
-        get() = mensajeDao
-
     override fun obtenerMensajes(salaId: String): Flow<List<Mensaje>> {
-        return mensajeDao.getMessagesForRoom(salaId)
-        }
+        return dao.getMessagesForRoom(salaId)
+    }
 
     override suspend fun guardarMensaje(mensaje: Mensaje, salaId: String) {
         val mensajeConSalaId = mensaje.copy(roomId = salaId)
-        mensajeDao.insertMessage(mensajeConSalaId)
+        dao.insertMessage(mensajeConSalaId)
     }
 
     override suspend fun actualizarEstado(timestamp: Long, status: MessageStatus) {
-        mensajeDao.updateMessageStatus(timestamp, status.name)
+        dao.updateMessageStatus(timestamp, status.name)
     }
-
 }
