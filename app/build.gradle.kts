@@ -46,7 +46,7 @@ android {
 }
 
 ksp {
-    // Configuraciones específicas para Hilt
+    // Configuraciones específicas  Hilt
     arg("dagger.hilt.shareTestComponents", "true")
 }
 
