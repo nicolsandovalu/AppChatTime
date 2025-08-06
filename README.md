@@ -45,9 +45,43 @@ const val WEBSOCKET_URL = "ws://10.0.2.2:8080"  // Para emulador
 - 🌐 Imágenes solo visibles localmente
 - 🔔 Sin notificaciones push
 
-##🔮 Roadmap
-- Perfiles de usuario
-- Creación de salas dinámicas
-- Sincronización offline
-- Envío de archivos
+## 🚀 Roadmap de Mejoras Futuras
+
+### 👤 **Gestión de Perfiles**
+- [ ] Edición de nombre de usuario y avatar  
+- [ ] Mostrar avatares en mensajes  
+- [ ] Estados de conexión (online/offline)  
+
+### 💬 **Funcionalidades de Chat**
+- [ ] Edición/eliminación de mensajes  
+- [ ] Búsqueda en conversaciones  
+- [ ] Indicadores "escribiendo..."  
+- [ ] Respuestas a mensajes específicos  
+
+### 🏗️ **Salas de Chat**
+- [ ] Creación dinámica de salas  
+- [ ] Listado de participantes  
+- [ ] Invitaciones por link  
+
+### 📁 **Multimedia y Archivos**
+- [ ] Envío de documentos/PDFs  
+- [ ] Compresión de imágenes  
+- [ ] Previsualización de archivos  
+
+### 🎨 **UX/UI Avanzado**
+- [ ] Temas claro/oscuro  
+- [ ] Soporte para emojis/stickers  
+- [ ] Animaciones de mensajes  
+
+### ⚡ **Rendimiento y Seguridad**
+- [ ] Paginación de mensajes  
+- [ ] Cifrado end-to-end  
+- [ ] Optimización de batería/red  
+
+### 🌐 **Conectividad**
+- [ ] Reconexión automática  
+- [ ] Sincronización offline  
+- [ ] Notificaciones push  
+
+
 
